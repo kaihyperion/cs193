@@ -12,10 +12,10 @@ struct MemoryGame<CardContent> {
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         // your job inside init is to initialize all your vars
-        cards = Array<Card>() // or [Card]() or []
+        cards = []
         
         // now add numberOfPairsOfCards x 2 cards
-        for pairIndex in 0..<numberOfPairsOfCards {
+        for pairIndex in 0..<max(2, numberOfPairsOfCards) {
             let content = cardContentFactory(pairIndex)
             cards.append(Card(content: content))
             cards.append(Card(content: content))
@@ -25,8 +25,13 @@ struct MemoryGame<CardContent> {
         
     }
     
+    // any function that can modify the model we have to put `mutating`
+    mutating func shuffle() {
+        cards.shuffle()
+    }
+    
     struct Card {
-        var isFaceUp: Bool = false
+        var isFaceUp: Bool = true
         var isMatched: Bool = false
         let content: CardContent  // use `let` because we dont want content of cards to change
     }
